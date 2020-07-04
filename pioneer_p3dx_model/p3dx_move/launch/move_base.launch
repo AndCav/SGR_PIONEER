@@ -7,7 +7,7 @@
   
   <arg name="base_global_planner" default="ompl_global_planner/OmplGlobalPlanner"/>
   <arg name="base_local_planner" default="dwa_local_planner/DWAPlannerROS"/>
-  <arg name="map_file" default="$(find p3dx_move)/maps/world2.yaml" />
+  <arg name="map_file" default="$(find p3dx_move)/maps/world_map.yaml" />
   <node name="$(arg nas)map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
  <group ns="$(arg nas)">
    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">    
