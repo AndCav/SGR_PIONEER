@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+  <env name="GAZEBO_MODEL_PATH" value="$(find p3dx_move)/models:$(optenv GAZEBO_MODEL_PATH)" />
+
+  <!-- World Spawn -->
+  <include file="$(find exploration_world)/launch/exp.launch" />
+
+  <!-- Robot Spawn -->
+  <include file="$(find p3dx_gazebo)/launch/p3dx.launch"> 
+	  <arg name="ns" value="p3dx_1" />
+	  <arg name="x" value="1.5" />
+	  <arg name="y" value="2.5" />
+  </include>
+
+</launch>
