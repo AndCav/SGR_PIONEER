@@ -6,8 +6,8 @@ Project for SGR Course
 # To use:
 ```
 new:
-roslaunch p3dx_move warehouse2.launch
-roslaunch p3dx_move move_base.launch
+roslaunch p3dx_move start.launch
+roslaunch p3dx_move navigation.launch
 roslaunch p3dx_move rviz_ompl.launch
 
 old:
