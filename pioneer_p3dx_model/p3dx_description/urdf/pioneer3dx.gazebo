@@ -90,6 +90,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<rpyOffsets>0 0 0</rpyOffsets>
 		</plugin>
 	</gazebo>
+
 	<!-- lms100 -->
 	<gazebo reference="lms100">
 		<sensor type="ray" name="lds_lfcd_sensor"> <!-- head_hokuyo_sensor -->
@@ -107,7 +108,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				</scan>
 				<range>
 					<min>0.1</min>
-					<max>4.0</max>
+					<max>10.0</max>		<!-- was 4.0 -->
 					<resolution>0.01</resolution>
 				</range>
 				<noise>

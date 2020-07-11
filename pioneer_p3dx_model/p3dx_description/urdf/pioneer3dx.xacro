@@ -193,6 +193,8 @@ work original in ucs-ros-pkg.
 		<parent link="base_link" />
 		<child link="front_sonar" />
 	</joint>
+
+
 	<!-- lms100 laser -->
 	<link name="lms100">
 		<inertial>
@@ -215,8 +217,9 @@ work original in ucs-ros-pkg.
 	</link>
 	<joint name="lms100_joint" type="fixed">
 		<axis xyz="0 1 0" />
-		<origin xyz="0.12 0 0.26" rpy="0 0 0" />
+		<origin xyz="0 0 0.3" rpy="0 0 0" /> <!-- was xyz="0.12 0 0.26" -->
 		<parent link="base_link" />
 		<child link="lms100" />
 	</joint>
+
 </robot>

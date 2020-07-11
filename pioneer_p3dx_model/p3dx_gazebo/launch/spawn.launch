@@ -20,11 +20,11 @@
                 -z $(arg z)" />
 
     <include file="$(find p3dx_control)/launch/control.launch">
-            <arg name="name" value="$(arg namespace_arg)" />
-            <arg name="x" value="$(arg x)" />
-            <arg name="y" value="$(arg y)" />
-            <arg name="namespace_arg" value="$(arg namespace_arg)" />
-            <arg name="tfprefix" value="$(arg namespace_arg)_tf"/>
-        </include>
+        <arg name="name" value="$(arg namespace_arg)" />
+        <arg name="x" value="$(arg x)" />
+        <arg name="y" value="$(arg y)" />
+        <arg name="namespace_arg" value="$(arg namespace_arg)" />
+        <arg name="tfprefix" value="$(arg namespace_arg)_tf"/>
+    </include>
 
 </launch>

@@ -5,7 +5,11 @@
   <env name="GAZEBO_MODEL_PATH" value="$(find p3dx_move)/models:$(optenv GAZEBO_MODEL_PATH)" />
 
   <!-- World Spawn -->
-  <include file="$(find exploration_world)/launch/exp.launch" />
+  <include file="$(find exploration_world)/launch/exp.launch">
+    <arg name="gzpose"      value="-x 0.0 -y 0.0 -z 0.0 -R 0.0 -P 0.0 -Y 0.0"/>
+    <arg name="gui"         value="false"/>
+    <arg name="debug"       value="false"/>
+  </include>
 
   <!-- Robot Spawn -->
   <include file="$(find p3dx_gazebo)/launch/p3dx.launch"> 
