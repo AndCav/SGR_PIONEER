@@ -352,12 +352,14 @@
       </camera>
     </gui>
 
-  
+
   
   <include>
 		<pose> 1.5 2.5 -0.012 0 0 1.57</pose>
 		<uri>model://h</uri>
 	</include>
+  
 
+  
   </world>
 </sdf>

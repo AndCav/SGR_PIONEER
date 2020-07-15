@@ -46,6 +46,7 @@
 */
 
 #include <ompl_global_planner.h>
+#include <nav_msgs/OccupancyGrid.h>
 #include <pluginlib/class_list_macros.h>
 #include <tf/transform_listener.h>
 
@@ -59,6 +60,7 @@ namespace ompl_global_planner
 bool do_plan = true;
 double dist = 0.0;
 costmap_2d::Costmap2D* costmap;
+
 
 OmplGlobalPlanner::OmplGlobalPlanner() :
         _costmap_ros(NULL), _initialized(false), _allow_unknown(true),
@@ -168,6 +170,8 @@ double motion_cost(const ob::State* s1, const ob::State* s2)
 bool OmplGlobalPlanner::isStateValid(const oc::SpaceInformation *si, const ob::State *state)
 {   
     double x, y, theta, v = 0.0;
+    double cost = 0.0;
+    double resolution = costmap->getResolution();
 
     //Check bound
     if (!si->satisfiesBounds(state)) {
@@ -176,12 +180,20 @@ bool OmplGlobalPlanner::isStateValid(const oc::SpaceInformation *si, const ob::S
 
     //Check map dimension
     get_xy_theta_v(state, x, y, theta, v);
-    if ((x>20) || (y>10) || (x<0) || (y<0) ) {
-        return false;
-    }
+    if ((x>20) || (y>10) || (x<0) || (y<0) ) { return false; }
+
+    //Path Validity
+    _costmap_ros->getRobotPose(curr_pose);
+    cost = _costmap_model->lineCost(curr_pose.pose.position.x/resolution, x/resolution, 
+                                    curr_pose.pose.position.y/resolution, y/resolution);
+    if (cost > 0 ){ ROS_INFO_STREAM("LINE COST: "<< cost); }
+
+    if (cost < 0) { return false; } 
+    //ROS_INFO_STREAM("CURRENT POS: "<< curr_pose.pose.position.x <<" ; "<< curr_pose.pose.position.y);
+
 
     // Get the cost of the footprint at the current location:
-    double cost = calc_cost(state);
+    cost = calc_cost(state);
 
     // std::cout << cost << std::endl;
     // Too high cost:
@@ -252,7 +264,7 @@ bool OmplGlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const 
     }
 
     //clear the plan, just in case
-    plan.clear();
+    //plan.clear();
 
     ros::NodeHandle n;
     std::string global_frame = _frame_id;
@@ -283,8 +295,12 @@ bool OmplGlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const 
     ob::RealVectorBounds bounds(2);
     //bounds.setLow (-10.0);
     //bounds.setHigh( 10.0);
-    bounds.setLow   (-18.44);   //18.44
-    bounds.setHigh  (18.44);    //ipotizzo dist da spawn point a goal
+    //bounds.setLow   (-18.44);   //18.44
+    //bounds.setHigh  (18.44);    //ipotizzo dist da spawn point a goal
+    bounds.setLow(0, -20.0);
+    bounds.setHigh(0, 20.0);
+    bounds.setLow(1, -10.0);
+    bounds.setHigh(1, 10.0);
     _se2_space->as<ob::SE2StateSpace>()->setBounds(bounds);
 
     ob::RealVectorBounds velocity_bounds(1);
@@ -343,7 +359,7 @@ bool OmplGlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const 
     ob::PlannerStatus solved;
 
     if (do_plan){
-        solved = planner->solve(2.0); //was 3.0
+        solved = planner->solve(1.0); //was 3.0
     }
 
     // Convert path into ROS messages:

@@ -110,11 +110,13 @@ class OmplGlobalPlanner : public nav_core::BaseGlobalPlanner
         bool _initialized;
         bool _allow_unknown;
 
-        geometry_msgs::Pose curr_pose;
-
         std::string tf_prefix_;
         boost::mutex _mutex;
         base_local_planner::CostmapModel* _costmap_model;
+
+        //new definition
+        //tf::Stamped< tf::Pose > curr_pose;
+        geometry_msgs::PoseStamped curr_pose;
 
         // State spaces:
         ob::StateSpacePtr _se2_space;

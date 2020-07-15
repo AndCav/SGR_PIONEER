@@ -7,8 +7,9 @@
   <!-- World Spawn -->
   <include file="$(find exploration_world)/launch/exp.launch">
     <arg name="gzpose"      value="-x 0.0 -y 0.0 -z 0.0 -R 0.0 -P 0.0 -Y 0.0"/>
-    <arg name="gui"         value="false"/>
+    <arg name="gui"         value="true"/>
     <arg name="debug"       value="false"/>
+    <arg name="paused"      value="true"/>
   </include>
 
   <!-- Robot Spawn -->
