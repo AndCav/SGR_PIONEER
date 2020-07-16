@@ -180,7 +180,7 @@ bool OmplGlobalPlanner::isStateValid(const oc::SpaceInformation *si, const ob::S
 
     //Check map dimension
     get_xy_theta_v(state, x, y, theta, v);
-    if ((x>20) || (y>10) || (x<0) || (y<0) ) { return false; }
+    if ((x>40) || (y>40) || (x<0) || (y<0) ) { return false; }
 
     //Path Validity
     _costmap_ros->getRobotPose(curr_pose);
@@ -297,16 +297,16 @@ bool OmplGlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const 
     //bounds.setHigh( 10.0);
     //bounds.setLow   (-18.44);   //18.44
     //bounds.setHigh  (18.44);    //ipotizzo dist da spawn point a goal
-    bounds.setLow(0, -20.0);
-    bounds.setHigh(0, 20.0);
-    bounds.setLow(1, -10.0);
-    bounds.setHigh(1, 10.0);
+    bounds.setLow(0, -0.0);
+    bounds.setHigh(0, 40.0);
+    bounds.setLow(1, 0.0);
+    bounds.setHigh(1, 40.0);
     _se2_space->as<ob::SE2StateSpace>()->setBounds(bounds);
 
     ob::RealVectorBounds velocity_bounds(1);
     //velocity_bounds.setHigh(0.6);
     //velocity_bounds.setLow(-0.1);
-    velocity_bounds.setHigh(0.22);
+    velocity_bounds.setHigh(0.55);
     velocity_bounds.setLow(-0.1);
     _velocity_space->as<ob::RealVectorStateSpace>()->setBounds(velocity_bounds);
 

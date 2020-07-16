@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <launch>
-  <arg name="map_file" default="$(find p3dx_move)/maps/box_map.yaml" />
+  <arg name="map_file" default="$(find p3dx_move)/maps/hospital_map.yaml" />
 
   <!-- Run Map Server -->
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
   
   <!-- Run AMCL -->
   <include file="$(find p3dx_move)/launch/amcl.launch">
-    <arg name="initial_pose_x" value="1.5"/>
-  	<arg name="initial_pose_y" value="2.5"/>
+    <arg name="initial_pose_x" value="4.0"/>
+  	<arg name="initial_pose_y" value="38.0"/>
+    <arg name="initial_pose_a" value="-1.57"/>
   </include>
 
   <!-- Run Move Base -->

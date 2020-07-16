@@ -5,18 +5,18 @@
   <env name="GAZEBO_MODEL_PATH" value="$(find p3dx_move)/models:$(optenv GAZEBO_MODEL_PATH)" />
 
   <!-- World Spawn -->
-  <include file="$(find exploration_world)/launch/exp.launch">
+  <include file="$(find hospital_world)/launch/hospital.launch">
     <arg name="gzpose"      value="-x 0.0 -y 0.0 -z 0.0 -R 0.0 -P 0.0 -Y 0.0"/>
     <arg name="gui"         value="true"/>
     <arg name="debug"       value="false"/>
-    <arg name="paused"      value="true"/>
   </include>
 
   <!-- Robot Spawn -->
   <include file="$(find p3dx_gazebo)/launch/p3dx.launch"> 
-	  <arg name="ns" value="p3dx_1" />
-	  <arg name="x" value="1.5" />
-	  <arg name="y" value="2.5" />
+	  <arg name="ns"    value="p3dx_1" />
+	  <arg name="x"     value="4.0" />
+	  <arg name="y"     value="38.0" />
+    <arg name="yaw"   value="-1.57" />
   </include>
 
 </launch>
