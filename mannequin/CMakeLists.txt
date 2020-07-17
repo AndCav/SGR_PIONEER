@@ -11,11 +11,15 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   geometry_msgs
   move_base_msgs
+  sensor_msgs
   nav_msgs
   roscpp
   rospy
+  roslib
   std_msgs
   urdf
+  genmsg
+  tf
   xacro
 )
 
@@ -207,6 +211,9 @@ include_directories(
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
+
+add_executable( mannequin  src/mannequin.cpp)
+target_link_libraries( mannequin  ${catkin_LIBRARIES})
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
