@@ -58,7 +58,9 @@ namespace ompl_global_planner
 {
 
 bool do_plan = true;
-double dist = 0.0;
+double map_x = 20.0;
+double map_y = 10.0;
+double max_cost = sqrt(pow(map_x,2) + pow(map_y,2)) + 10;
 costmap_2d::Costmap2D* costmap;
 
 
@@ -180,13 +182,13 @@ bool OmplGlobalPlanner::isStateValid(const oc::SpaceInformation *si, const ob::S
 
     //Check map dimension
     get_xy_theta_v(state, x, y, theta, v);
-    if ((x>40) || (y>40) || (x<0) || (y<0) ) { return false; }
+    if ((x>map_x) || (y>map_y) || (x<0) || (y<0) ) { return false; }
 
     //Path Validity
     _costmap_ros->getRobotPose(curr_pose);
     cost = _costmap_model->lineCost(curr_pose.pose.position.x/resolution, x/resolution, 
                                     curr_pose.pose.position.y/resolution, y/resolution);
-    if (cost > 0 ){ ROS_INFO_STREAM("LINE COST: "<< cost); }
+    //if (cost > 0 ){ ROS_INFO_STREAM("LINE COST: "<< cost); }
 
     if (cost < 0) { return false; } 
     //ROS_INFO_STREAM("CURRENT POS: "<< curr_pose.pose.position.x <<" ; "<< curr_pose.pose.position.y);
@@ -197,7 +199,7 @@ bool OmplGlobalPlanner::isStateValid(const oc::SpaceInformation *si, const ob::S
 
     // std::cout << cost << std::endl;
     // Too high cost:
-    if (cost > 30)      //was 90
+    if (cost > max_cost)      //was 90
     {
         return false;
     }
@@ -297,10 +299,10 @@ bool OmplGlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const 
     //bounds.setHigh( 10.0);
     //bounds.setLow   (-18.44);   //18.44
     //bounds.setHigh  (18.44);    //ipotizzo dist da spawn point a goal
-    bounds.setLow(0, -0.0);
-    bounds.setHigh(0, 40.0);
+    bounds.setLow(0, 0.0);
+    bounds.setHigh(0, map_x);
     bounds.setLow(1, 0.0);
-    bounds.setHigh(1, 40.0);
+    bounds.setHigh(1, map_y);
     _se2_space->as<ob::SE2StateSpace>()->setBounds(bounds);
 
     ob::RealVectorBounds velocity_bounds(1);
@@ -342,7 +344,8 @@ bool OmplGlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const 
     //ob::OptimizationObjectivePtr objective(new CostMapWorkObjective(*this, si));
 
     ob::ProblemDefinitionPtr pdef(new ob::ProblemDefinition(si));
-    pdef->setStartAndGoalStates(ompl_start, ompl_goal, 0.1);
+    //pdef->setStartAndGoalStates(ompl_start, ompl_goal, 1.0);    //was 0.1
+    pdef->setStartAndGoalStates(ompl_start, ompl_goal);
     pdef->setOptimizationObjective(cost_objective + length_objective);
 
     ROS_INFO("Problem defined, running planner");
@@ -357,9 +360,9 @@ bool OmplGlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const 
     planner->setup();
 
     ob::PlannerStatus solved;
-
-    if (do_plan){
-        solved = planner->solve(1.0); //was 3.0
+    while (solved != ob::PlannerStatus::EXACT_SOLUTION){
+        solved = planner->solve(1.5); //was 3.0
+        ROS_INFO_STREAM(solved.asString());
     }
 
     // Convert path into ROS messages:

@@ -359,6 +359,47 @@
 		<uri>model://h</uri>
 	</include>
   
+  <include>
+    <uri>model://w1</uri>
+    <name>w1</name>
+    <pose>13 7 0.0 0 0.0 -1.57</pose>
+  </include>
+
+  <include>
+    <uri>model://w2</uri>
+    <name>w2</name>
+    <pose>13 1 0.0 0 0.0 -1.57</pose>
+  </include>
+
+  <include>
+    <uri>model://bed</uri>
+    <name>bed</name>
+    <pose>18 -1 0 0 0 -1.57 </pose>
+  </include>
+
+  <include>
+    <uri>model://desk</uri>
+    <name>desk</name>
+    <pose>13.85 9.3 0 0 0 1.57 </pose>
+  </include>
+
+  <include>
+    <uri>model://flower</uri>
+    <name>flower</name>
+    <pose>13.3 5.5 0.7 0 0 0 </pose>
+  </include>
+
+  <include>
+    <uri>model://flower</uri>
+    <name>flower</name>
+    <pose>13.3 7 0.7 0 0 0 </pose>
+  </include>
+
+  <include>
+    <uri>model://flower</uri>
+    <name>flower</name>
+    <pose>13.3 8.5 0.7 0 0 0 </pose>
+  </include>
 
   
   </world>
