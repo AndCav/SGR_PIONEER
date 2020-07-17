@@ -18,7 +18,7 @@ void MANNEQUIN::updatecommandVelocity(double linear, double angular)
 
   cmd_vel.linear.x  = linear;
   cmd_vel.angular.z = angular;
-ROS_INFO("UPDATING VELOCITY L: %.2f A: %.2f",cmd_vel.linear.x,cmd_vel.angular.z);
+//ROS_INFO("UPDATING VELOCITY L: %.2f A: %.2f",cmd_vel.linear.x,cmd_vel.angular.z);
   _cmd_vel_pub.publish(cmd_vel);
 }
 
@@ -129,7 +129,7 @@ void MANNEQUIN::run() {
 int main( int argc, char** argv) {
     std::string pref;
     
-    if(argc!=2){ pref="mann1";}
+    if(argc<2){ pref="mann1";}
     else{ pref=argv[1];}
     std::cout<<"name is:"<<pref<<std::endl;
     ros::init(argc, argv, "MANNEQUIN_task"+pref );
