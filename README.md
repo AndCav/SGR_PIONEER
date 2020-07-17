@@ -9,8 +9,6 @@ new:
 roslaunch p3dx_move start.launch
 roslaunch p3dx_move navigation.launch
 roslaunch p3dx_move rviz_ompl.launch
-rosrun mannequin mannequin mann1
-rosrun mannequin mannequin mann2
 
 old:
 roslaunch p3dx_move warehouse2.launch
