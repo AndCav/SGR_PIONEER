@@ -3,6 +3,7 @@
 <robot name="diff_robot" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:include filename="$(find rl_robot_description_pkg)/urdf/diff_robot_macro.xacro" /> 
   <xacro:property name="M_PI" value="3.1415926535897931" />
+  <xacro:arg name="prefix" default="mann1"/>
 	
 		<!--Actual body/chassis of the robot-->
 	<link name="base_link">
@@ -40,7 +41,7 @@
 		<collision>
 			<origin xyz="0 0 0.95" rpy="0 0 0" />
 			<geometry>
-				<cylinder length="1.90" radius="0.5" />
+				<cylinder length="1.90" radius="0.3" />
 			</geometry>
 		</collision> 
 	</link>
@@ -50,22 +51,23 @@
 		<origin xyz="0.0 0.0 0.1" rpy="0 0 0"/>
 	</joint>
 	
-	<!--<link name="sensor_link">
-		
+	
+	<link name="sensor_link">
+		<!--
     <collision>
       <origin xyz="0 0 0.05" rpy="0 0 0"/>
       <geometry>
         <box size="0.1 0.1 0.1"/>
       </geometry>
     </collision>
-		
+		-->
     <visual>
       <origin xyz="0 0 0.05" rpy="0 0 0"/>
       <geometry>
-        <box size="0.1 0.1 0.1"/>
+        <box size="0.01 0.01 0.01"/>
       </geometry>
       <material name="orange"/>
-    </visual>-->
+    </visual>
 		<!--
     <inertial>
       <origin xyz="0 0 1" rpy="0 0 0"/>
@@ -75,16 +77,14 @@
         iyy="1.0" iyz="0.0"
         izz="1.0"/>
     </inertial>
-		
-  </link>
+		-->
+        </link>
 
 	<joint name="sensor_joint" type="fixed">
-		<parent link="base_link" />
+		<parent link="humanbody" />
 		<child link="sensor_link" />
-		<origin xyz="0.0 0.0 0.1" rpy="0 0 0"/>
+		<origin xyz="0.0 0.0 0.8" rpy="0 0 0"/>
 	</joint>
--->
-	
 
 	<xacro:caster_joint 
 		name="caster_front_link"
@@ -132,9 +132,9 @@
       <broadcastTF>1</broadcastTF>
       <wheelTorque>30</wheelTorque>
       <wheelAcceleration>1.8</wheelAcceleration>
-      <commandTopic>cmd_vel</commandTopic>
-      <odometryFrame>odom</odometryFrame> 
-      <odometryTopic>odom</odometryTopic> 
+      <commandTopic>/$(arg prefix)/cmd_vel</commandTopic>
+      <odometryFrame>/$(arg prefix)/odom</odometryFrame> 
+      <odometryTopic>/$(arg prefix)/odom</odometryTopic> 
       <robotBaseFrame>base_link</robotBaseFrame>
     </plugin>
 
@@ -143,5 +143,36 @@
 
 		</plugin>
   </gazebo> 
-	
+  <gazebo reference="sensor_link">
+		<sensor type="ray" name="laser">
+      <pose>0 0 0.0 0 0 0</pose>
+      <visualize>false</visualize>
+      <update_rate>40</update_rate>
+       <ray>
+        <scan>
+          <horizontal>
+            <samples>360</samples>
+            <resolution>1</resolution>
+             <min_angle>-1.57</min_angle>
+             <max_angle>1.57</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.4</min>
+          <max>10.0</max>
+          <resolution>0.0001</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.0001</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+        <topicName>/$(arg prefix)/laser/scan</topicName>
+        <frameName>base_link</frameName>
+      </plugin>
+		</sensor>
+
+  </gazebo> 
 </robot>
