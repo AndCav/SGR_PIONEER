@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
-<robot name="diff_robot" xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:include filename="$(find mannequin)/urdf/diff_robot_macro.xacro" /> 
+<robot name="mannequin" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find mannequin)/urdf/mannequin_macro.xacro" /> 
   <xacro:property name="M_PI" value="3.1415926535897931" />
   <xacro:arg name="prefix" default="mann1"/>
 	
@@ -39,7 +39,7 @@
 			</geometry>
 		</visual>
 		<collision>
-			<origin xyz="0 0 0.95" rpy="0 0 0" />
+			<origin xyz="0 0 0.90" rpy="0 0 0" />
 			<geometry>
 				<cylinder length="1.90" radius="0.3" />
 			</geometry>
@@ -83,7 +83,7 @@
 	<joint name="sensor_joint" type="fixed">
 		<parent link="humanbody" />
 		<child link="sensor_link" />
-		<origin xyz="0.0 0.0 0.3" rpy="0 0 0"/>
+		<origin xyz="0.0 0.0 0.05" rpy="0 0 0"/>
 	</joint>
 
 	<xacro:caster_joint 

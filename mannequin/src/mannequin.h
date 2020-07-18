@@ -13,7 +13,7 @@
 #define LEFT   2
 #define RIGHT  0
 
-#define LINEAR_VELOCITY  0.5
+#define LINEAR_VELOCITY  0.3
 #define ANGULAR_VELOCITY 1.5
 
 #define GET_MANN_DIRECTION 0
@@ -21,7 +21,7 @@
 #define MANN_RIGHT_TURN    2
 #define MANN_LEFT_TURN     3
 #define ESCAPE_RANGE       45
-#define FORWARD_DISTANCE   80 //IN cm
+#define FORWARD_DISTANCE   90 //IN cm
 #define SIDE_DISTANCE      40 //IN cm
 
 class MANNEQUIN {
