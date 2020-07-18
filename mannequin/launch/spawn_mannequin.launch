@@ -7,7 +7,7 @@
 <arg name="name" default="mannequin_$(arg nas)"/>
 <!-- urdf xml robot description loaded on the Parameter Server-->  
 <group ns="$(arg nas)">
-  <param name="robot_description" command="$(find xacro)/xacro '$(find mannequin)/urdf/diff_robot.xacro' prefix:=$(arg nas)" /> 
+  <param name="robot_description" command="$(find xacro)/xacro '$(find mannequin)/urdf/mannequin.xacro' prefix:=$(arg nas)" /> 
   <param name="tf_prefix" value="$(arg nas)_tf" />
 
   <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->

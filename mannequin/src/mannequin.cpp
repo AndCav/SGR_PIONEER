@@ -56,7 +56,7 @@ void MANNEQUIN::odom_cb( nav_msgs::OdometryConstPtr odom ) {
  
 //main loop! 
 void MANNEQUIN::wander(){
-	ros::Rate r(1);
+	ros::Rate r(10);
 	uint16_t mannequin_state_num = 0;
 while(ros::ok()){
 
