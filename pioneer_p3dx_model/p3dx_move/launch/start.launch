@@ -32,11 +32,11 @@
 	  <arg name="y" value="8" />
   </include> 
   
-  <!-- the next nodes make the mannequins move -->
+  <!-- the next nodes make the mannequins move 
   <node pkg="mannequin" type="mannequin" name="mann2" args="mann2" output="log"/>
   
   <node pkg="mannequin" type="mannequin" name="mann1" args="mann1" output="log"/>
-  
+  -->
 
   <!-- Notes 
   - Hospital start point

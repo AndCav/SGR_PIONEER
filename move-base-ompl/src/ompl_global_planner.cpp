@@ -349,13 +349,13 @@ bool OmplGlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const 
     pdef->setOptimizationObjective(cost_objective + length_objective);
 
     ROS_INFO("Problem defined, running planner");
-    // oc::DecompositionPtr decomp(new My
-    // ob::PlannerPtr planner(new oc::LBTRRT(si));
-    // ob::PlannerPtr planner(new og::RRTConnect(si));
-    ob::PlannerPtr planner(new og::RRTstar(si));
-    // ob::PlannerPtr planner(new og::PRMstar(si)); // works
-    // ob::PlannerPtr planner(new og::PRM(si)); // segfault
-    // ob::PlannerPtr planner(new og::TRRT(si));
+
+    //Planner
+    // ob::PlannerPtr planner(new og::RRT(si));
+    // ob::PlannerPtr planner(new og::pRRT(si));
+    // ob::PlannerPtr planner(new og::RRTstar(si));
+    // ob::PlannerPtr planner(new og::PRMstar(si)); //only open space
+
     planner->setProblemDefinition(pdef);
     planner->setup();
 
