@@ -360,10 +360,10 @@ bool OmplGlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const 
     planner->setup();
 
     ob::PlannerStatus solved;
-    while (solved != ob::PlannerStatus::EXACT_SOLUTION){
+    //while (solved != ob::PlannerStatus::EXACT_SOLUTION){
         solved = planner->solve(1.5); //was 3.0
         ROS_INFO_STREAM(solved.asString());
-    }
+    //}
 
     // Convert path into ROS messages:
     if (solved)

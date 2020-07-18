@@ -18,6 +18,7 @@
 	  <arg name="y"     value="2.5" />
     <arg name="yaw"   value="0.0" />
   </include>
+
  <!-- mannequin Spawn -->
   <include file="$(find mannequin)/launch/spawn_mannequin.launch"> 
 	  <arg name="nas" value="mann1" />
@@ -29,7 +30,7 @@
 	  <arg name="nas" value="mann2" />
 	  <arg name="x" value="8" />
 	  <arg name="y" value="8" />
-  </include>
+  </include> 
   
   <!-- the next nodes make the mannequins move -->
   <node pkg="mannequin" type="mannequin" name="mann2" args="mann2" output="log"/>

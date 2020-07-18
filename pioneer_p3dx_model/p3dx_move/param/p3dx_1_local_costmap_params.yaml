@@ -7,9 +7,9 @@ local_costmap:
    transform_tolerance: 0.5
    
    static_map: true       #was  false
-   rolling_window: true    #was  true
+   rolling_window: false    #was  true
    width: 20.0  #was 4.0
-   height: 20.0 #was 4.0
+   height: 40.0 #was 4.0
    resolution: 0.05
    
 
