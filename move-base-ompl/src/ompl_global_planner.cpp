@@ -58,8 +58,8 @@ namespace ompl_global_planner
 {
 
 bool do_plan = true;
-double map_x = 20.0;
-double map_y = 10.0;
+double map_x = 40.0;
+double map_y = 40.0;
 double max_cost = sqrt(pow(map_x,2) + pow(map_y,2)) + 10;
 costmap_2d::Costmap2D* costmap;
 
@@ -308,7 +308,7 @@ bool OmplGlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const 
     ob::RealVectorBounds velocity_bounds(1);
     //velocity_bounds.setHigh(0.6);
     //velocity_bounds.setLow(-0.1);
-    velocity_bounds.setHigh(0.55);
+    velocity_bounds.setHigh(0.3);
     velocity_bounds.setLow(-0.1);
     _velocity_space->as<ob::RealVectorStateSpace>()->setBounds(velocity_bounds);
 
@@ -353,7 +353,9 @@ bool OmplGlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const 
     //Planner
     // ob::PlannerPtr planner(new og::RRT(si));
     // ob::PlannerPtr planner(new og::pRRT(si));
-    // ob::PlannerPtr planner(new og::RRTstar(si));
+      og::RRTstar* pointer= new og::RRTstar(si);
+     pointer->setRange(10);
+     ob::PlannerPtr planner(pointer);
     // ob::PlannerPtr planner(new og::PRMstar(si)); //only open space
 
     planner->setProblemDefinition(pdef);
@@ -361,7 +363,7 @@ bool OmplGlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const 
 
     ob::PlannerStatus solved;
     //while (solved != ob::PlannerStatus::EXACT_SOLUTION){
-        solved = planner->solve(1.5); //was 3.0
+        solved = planner->solve(30); //was 3.0
         ROS_INFO_STREAM(solved.asString());
     //}
 
