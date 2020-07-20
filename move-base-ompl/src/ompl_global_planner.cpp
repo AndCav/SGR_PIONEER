@@ -354,7 +354,7 @@ bool OmplGlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const 
     // ob::PlannerPtr planner(new og::RRT(si));
     // ob::PlannerPtr planner(new og::pRRT(si));
       og::RRTstar* pointer= new og::RRTstar(si);
-     pointer->setRange(10);
+     pointer->setRange(3);
      ob::PlannerPtr planner(pointer);
     // ob::PlannerPtr planner(new og::PRMstar(si)); //only open space
 
@@ -363,7 +363,7 @@ bool OmplGlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const 
 
     ob::PlannerStatus solved;
     //while (solved != ob::PlannerStatus::EXACT_SOLUTION){
-        solved = planner->solve(30); //was 3.0
+        solved = planner->solve(5); //was 3.0
         ROS_INFO_STREAM(solved.asString());
     //}
 
