@@ -10,7 +10,7 @@
 
   <!-- start up world -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name"    value="$(find exploration_world)/worlds/box_world.world"/>
+    <arg name="world_name"    value="$(find exploration_world)/worlds/box_world_empty.world"/>
     <arg name="gui"           value="$(arg gui)"/>
     <arg name="debug"         value="$(arg debug)"/>
     <arg name="paused"        value="$(arg paused)"/>

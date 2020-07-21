@@ -57,10 +57,11 @@ PLUGINLIB_EXPORT_CLASS(ompl_global_planner::OmplGlobalPlanner, nav_core::BaseGlo
 namespace ompl_global_planner
 {
 
-bool do_plan = true;
+bool first_plan = true;
 double map_x = 40.0;
 double map_y = 40.0;
-double max_cost = sqrt(pow(map_x,2) + pow(map_y,2)) + 10;
+double max_dist = sqrt(pow(map_x,2) + pow(map_y,2));
+double max_cost = max_dist + 10;
 costmap_2d::Costmap2D* costmap;
 
 
@@ -199,6 +200,13 @@ bool OmplGlobalPlanner::isStateValid(const oc::SpaceInformation *si, const ob::S
 
     // std::cout << cost << std::endl;
     // Too high cost:
+
+    ob::Cost costo = ob::Cost(si->getStateValidityChecker()->clearance(state));
+    ROS_INFO_STREAM("COSTO: "<< costo.value());
+    if (costo.value() < 0){
+        return false;
+    }
+
     if (cost > max_cost)      //was 90
     {
         return false;
@@ -266,7 +274,7 @@ bool OmplGlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const 
     }
 
     //clear the plan, just in case
-    //plan.clear();
+    plan.clear();
 
     ros::NodeHandle n;
     std::string global_frame = _frame_id;
@@ -338,15 +346,18 @@ bool OmplGlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const 
     ompl_goal[2] = calcYaw(start.pose);
     ompl_goal[3] = 0; // Speed
 
+    double dist_to_goal = sqrt(pow((ompl_goal[0] - ompl_start[0]),2) + pow((ompl_goal[1] - ompl_start[1]),2));
+
     // Optimize criteria:
     ob::OptimizationObjectivePtr cost_objective(new CostMapObjective(*this, si));
     ob::OptimizationObjectivePtr length_objective(new ob::PathLengthOptimizationObjective(si));
     //ob::OptimizationObjectivePtr objective(new CostMapWorkObjective(*this, si));
 
     ob::ProblemDefinitionPtr pdef(new ob::ProblemDefinition(si));
-    //pdef->setStartAndGoalStates(ompl_start, ompl_goal, 1.0);    //was 0.1
-    pdef->setStartAndGoalStates(ompl_start, ompl_goal);
-    pdef->setOptimizationObjective(cost_objective + length_objective);
+    pdef->setStartAndGoalStates(ompl_start, ompl_goal, 1.0);    //was 0.1
+    //pdef->setStartAndGoalStates(ompl_start, ompl_goal);
+    //pdef->setOptimizationObjective(0.001*cost_objective + 0.0001*length_objective);
+    pdef->setOptimizationObjective(0.0001*length_objective); // 0.0001
 
     ROS_INFO("Problem defined, running planner");
 
@@ -354,7 +365,8 @@ bool OmplGlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const 
     // ob::PlannerPtr planner(new og::RRT(si));
     // ob::PlannerPtr planner(new og::pRRT(si));
       og::RRTstar* pointer= new og::RRTstar(si);
-     pointer->setRange(3);
+     pointer->setRange(dist_to_goal+10); //dist_to_goal+10
+     pointer->setGoalBias(0.05);
      ob::PlannerPtr planner(pointer);
     // ob::PlannerPtr planner(new og::PRMstar(si)); //only open space
 
@@ -363,11 +375,19 @@ bool OmplGlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const 
 
     ob::PlannerStatus solved;
     //while (solved != ob::PlannerStatus::EXACT_SOLUTION){
-        solved = planner->solve(5); //was 3.0
+
+        if (first_plan){
+            solved = planner->solve(20.0); //was 3.0
+            first_plan = false;
+        } else {
+            solved = planner->solve(1.0); //was 3.0
+        }
+        
         ROS_INFO_STREAM(solved.asString());
     //}
 
     // Convert path into ROS messages:
+    //if (solved == ob::PlannerStatus::EXACT_SOLUTION)
     if (solved)
     {
         ROS_INFO("Ompl done!");

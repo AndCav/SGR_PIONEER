@@ -5,7 +5,7 @@ MANNEQUIN::MANNEQUIN(std::string prefix){
         _laser_sub = _nh.subscribe("/"+prefix+"/laser/scan",0,&MANNEQUIN::laser_cb,this);
         _odom_sub = _nh.subscribe("/"+prefix+"/odom", 0, &MANNEQUIN::odom_cb, this);
         _cmd_vel_pub = _nh.advertise< geometry_msgs::Twist>("/"+prefix+"/cmd_vel", 0);
-	escape_range_       = 30.0 * DEG2RAD;
+	escape_range_       = 45.0 * DEG2RAD;
 	check_forward_dist_ = FORWARD_DISTANCE*0.01;
 	check_side_dist_    = SIDE_DISTANCE*0.01;
 

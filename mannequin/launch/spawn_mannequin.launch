@@ -1,9 +1,11 @@
 <?xml version="1.0" ?>
 <launch>
-<arg name="nas" default=""/>
-<arg name="x" default="4.0"/>
-<arg name="y" default="4.0"/>
-<arg name="z" default="0.0"/>
+<arg name="nas"   default=""/>
+<arg name="x"     default="4.0"/>
+<arg name="y"     default="4.0"/>
+<arg name="z"     default="0.0"/>
+<arg name="yaw"   default="0.0" />
+
 <arg name="name" default="mannequin_$(arg nas)"/>
 <!-- urdf xml robot description loaded on the Parameter Server-->  
 <group ns="$(arg nas)">
@@ -12,7 +14,7 @@
 
   <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
   <node name="$(arg nas)_robot_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-  	args="-urdf -model $(arg name) -x $(arg x) -y $(arg y) -z $(arg z) -param  /$(arg nas)/robot_description  -robot_namespace $(arg nas)"/>
+  	args="-urdf -model $(arg name) -x $(arg x) -y $(arg y) -z $(arg z) -Y $(arg yaw) -param  /$(arg nas)/robot_description  -robot_namespace $(arg nas)"/>
   	
  <!-- <rosparam file="$(find mannequin)/config/mannequin.yaml" command="load"/> da creare-->
   

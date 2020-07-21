@@ -56,6 +56,7 @@
 #include <nav_msgs/GetPlan.h>
 #include <base_local_planner/costmap_model.h>
 
+#include <ompl/base/Cost.h>
 #include <ompl/base/spaces/SE2StateSpace.h>
 #include <ompl/control/planners/rrt/RRT.h>
 #include <ompl/geometric/planners/rrt/RRT.h>
@@ -70,6 +71,7 @@
 #include <ompl/base/objectives/StateCostIntegralObjective.h>
 #include <ompl/base/objectives/MechanicalWorkOptimizationObjective.h>
 #include <ompl/base/objectives/PathLengthOptimizationObjective.h>
+#include <ompl/base/objectives/StateCostIntegralObjective.h>
 
 namespace ob = ompl::base;
 namespace oc = ompl::control;
